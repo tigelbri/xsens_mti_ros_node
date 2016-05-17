@@ -25,7 +25,6 @@ class MTDevice(object):
 		self.device.flushOutput()	# flush to make sure the port is ready TODO
 		## timeout for communication
 		self.timeout = timeout
-		MID.addtionalTimeoutOffset = 1.0
 		if autoconf:
 			self.auto_config()
 		else:
@@ -386,6 +385,7 @@ class MTDevice(object):
 		"""Configure the mode and settings of the MTMk4 device."""
 		self.GoToConfig()
 		self.timeout = math.pow(mtiSampleRate,-1)+MID.additionalTimeOutOffset  # additional 5ms leeway
+		self.timeout = 1.0
 		print "Timeout changed to %1.3fs based on current settings."%(self.timeout)
 		mid = MID.SetOutputConfiguration
 		midReqDID = MID.ReqDID
