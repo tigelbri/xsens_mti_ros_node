@@ -16,7 +16,7 @@ verbose = False
 class MTDevice(object):
 	"""Xsens MT device communication object."""
 
-	def __init__(self, port, baudrate=115200, timeout=0.1, autoconf=True,
+	def __init__(self, port, baudrate=115200, timeout=1.0, autoconf=True,
 			config_mode=False):
 		"""Open device."""
 		self.device = serial.Serial(port, baudrate, timeout=timeout,
@@ -504,6 +504,7 @@ class MTDevice(object):
 		self.GoToConfig()
 		config =self.ReqConfiguration()
 		Config = numpy.array(config)
+		MID.additionalTimeOutOffset = 1.0
 		if Config.any():
 			configuredMtiFs = numpy.max(Config[Config[:,1]!=65535,1])
 			self.timeout = math.pow(configuredMtiFs,-1)+MID.additionalTimeOutOffset  # additional 5ms leeway
@@ -511,7 +512,9 @@ class MTDevice(object):
 		else:
 			self.timeout = 1+MID.additionalTimeOutOffset
 			print "Timeout defaults to %1.3fs based on output settings."%(self.timeout)
+
 		self.GoToMeasurement()
+
 		return self.timeout
 
 
