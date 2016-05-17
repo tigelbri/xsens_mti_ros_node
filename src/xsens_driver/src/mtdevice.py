@@ -25,6 +25,7 @@ class MTDevice(object):
 		self.device.flushOutput()	# flush to make sure the port is ready TODO
 		## timeout for communication
 		self.timeout = timeout
+		MID.addtionalTimeoutOffset = 1.0
 		if autoconf:
 			self.auto_config()
 		else:
